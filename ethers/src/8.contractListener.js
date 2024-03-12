@@ -6,6 +6,7 @@ const address = '0xdAC17F958D2ee523a2206206994597C13D831ec7'
 const contract = new ethers.Contract(address, abi, providerMain)
 
 async function main() {
+  console.log('start ->')
   contract.once('Transfer', (from, to, value) => {
     console.log(`from:${from} to:${to} val:${ethers.utils.formatUnits(ethers.BigNumber.from(value), 6)}`)
   })

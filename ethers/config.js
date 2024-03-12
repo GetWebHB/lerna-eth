@@ -1,4 +1,4 @@
-const ETH_MAIN_URL = 'https://eth-mainnet.public.blastapi.io'
+const ETH_MAIN_URL = 'https://eth.llamarpc.com'
 // const ETH_TEST_URL = 'https://goerli.gateway.tenderly.co'
 const ETH_TEST_URL = 'https://eth-sepolia.api.onfinality.io/public'
 const CONTRACT_ADDRESS_WETH = '0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2'
