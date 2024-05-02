@@ -1,13 +1,13 @@
 const { ethers } = require("ethers");
 const getProviders = require("./utils/getProviders");
 const getWallet = require("./utils/getWallet");
-const { WETH_CONTRACH, PRIVATE_KEY, ADDRESS } = require("../config");
+const { WETH_CONTRACT, PRIVATE_KEY, ADDRESS } = require("../config");
 const ABI = require("./abi/WETH.json");
 
 const { provider_sepolia } = getProviders();
 
 const contractWETH = new ethers.Contract(
-  WETH_CONTRACH,
+  WETH_CONTRACT,
   ABI,
   getWallet(provider_sepolia)
 );
