@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script
+      defer
+      src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.12.1/ethers.umd.min.js"
+    ></script>
+  </head>
+  <body>
+    <h1 id="header">Sign in with Ethereum</h1>
+    <button class="sign">Sign</button>
+    <h2>钱包地址: <span class="showAccount"></span></h2>
+    <h2>Nonce: <span class="showNonce"></span></h2>
+    <h2>Signature: <span class="showSignature"></span></h2>
+    <h2>是否签名成功: <span class="showSignStatus"></span></h2>
+    <script>
+      const users = {};
+      function auth(address) {
+        let user = users[address];
+        if (!user) {
+          user = {
+            address,
+            nonce: Math.floor(Math.random() * 1000000),
+          };
+          users[address] = user;
+        } else {
+          const nonce = Math.floor(Math.random() * 1000000);
+          user.nonce = nonce;
+          users[address] = user;
+        }
+
+        return user.nonce;
+      }
+    </script>
+    <script>
+      function verify(address, signature) {
+        let signValid = false;
+        console.log("address:", address);
+        const nonce = users[address].nonce;
+        console.log("nonce:", nonce);
+
+        const decodedAddr = ethers.verifyMessage(
+          nonce.toString(),
+          signature.toString()
+        );
+        if (decodedAddr.toLocaleLowerCase() === address.toLocaleLowerCase()) {
+          signValid = true;
+          users[address].nonce = Math.floor(Math.random() * 1000000);
+        }
+
+        return signValid;
+      }
+    </script>
+    <script>
+      const signButton = document.querySelector(".sign");
+      const showAccount = document.querySelector(".showAccount");
+      const showNonce = document.querySelector(".showNonce");
+      const showSignature = document.querySelector(".showSignature");
+      const showSignStatus = document.querySelector(".showSignStatus");
+
+      signButton.addEventListener("click", async () => {
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        // 读取钱包
+        const [account] = await provider.send("eth_requestAccounts");
+        showAccount.innerHTML = account;
+
+        const nonce = auth(account);
+        showNonce.innerHTML = nonce;
+
+        // 拿到signer
+        const signer = await provider.getSigner();
+        const signature = await signer.signMessage(nonce.toString());
+        showSignStatus.innerHTML = signature;
+
+        const status = verify(account, signature);
+        showSignStatus.innerHTML = status;
+      });
+    </script>
+  </body>
+</html>

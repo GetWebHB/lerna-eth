@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script
+      defer
+      src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.12.1/ethers.umd.min.js"
+    ></script>
+  </head>
+  <body>
+    <h1 id="header">Connect to Metamask</h1>
+    <button class="connect">Connect</button>
+    <h2>钱包地址: <span class="showAccount"></span></h2>
+    <h2>ChainID: <span class="showChainID"></span></h2>
+    <h2>ETH 余额: <span class="showETHBalance"></span></h2>
+
+    <script>
+      const ethereumButton = document.querySelector(".connect");
+      const showAccount = document.querySelector(".showAccount");
+      const showChainID = document.querySelector(".showChainID");
+      const showETHBalance = document.querySelector(".showETHBalance");
+
+      const onClickHandler = async () => {
+        const provider = new ethers.BrowserProvider(window.ethereum)
+        const [account] = await provider.send("eth_requestAccounts")
+        showAccount.innerHTML = account
+
+        // chainId
+        const {chainId} = await provider.getNetwork()
+        console.log('chainid:', chainId)
+        showChainID.innerHTML = chainId
+
+        // 读取eth余额
+        const signer = await provider.getSigner()
+        const balance = await provider.getBalance(signer.getAddress())
+        showETHBalance.innerHTML = ethers.formatUnits(balance)
+      }
+
+      ethereumButton.addEventListener('click', onClickHandler);
+    </script>
+  </body>
+</html>
