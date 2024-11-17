@@ -3,7 +3,7 @@
 */
 const { ethers } = require("ethers");
 const getProviders = require("../src/utils/getProviders");
-const { PRIVATE_KEY } = require("../config");
+const { PRIVATE_KEY } = require("../../wallet/config");
 
 // const PRIVATE_KEY =
 //   "0x227dbb8586117d55284e26620bc76534dfbd2394be34cf4a09cb775d593b6f2b";

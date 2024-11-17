@@ -2,7 +2,7 @@ const { ethers } = require("ethers");
 const providers = require("./utils/getProviders");
 const getWallet = require("./utils/getWallet");
 const ABI = require("./abi/WETH.json");
-const { WETH_CONTRACT } = require("../config");
+const { WETH_CONTRACT } = require("../../wallet/config");
 
 const { provider_sepolia } = providers();
 const wallet = getWallet(provider_sepolia);
